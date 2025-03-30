@@ -61,9 +61,9 @@ module.exports.createListing = async (req,res)=>{
     lis.image.url=url;
     lis.image.filename=filename;
     let resp=await getGeoJSON(lis.location);
-    console.log(resp);
+    
     lis.geoLocation = resp.geometry;
-    console.log(lis.geoLocation);
+    
     
     lis.owner = req.user._id;
     
@@ -88,8 +88,11 @@ module.exports.edit = async(req,res,next)=>{
         let filename = req.files[0].filename;
         Lis.image.url =url;
         Lis.image.filename=filename;
-        await Lis.save();
+        
     }
+    let resp=await getGeoJSON(Lis.location);
+    Lis.geoLocation = resp.geometry;
+    await Lis.save();
     req.flash("success","Listing Updated successfully");
     res.redirect(`/listings/${id}`);
 
