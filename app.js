@@ -71,7 +71,7 @@ app.listen(8080,()=>{
 
 //root route
 app.get('/',(req,res)=>{
-    res.send("hi there");
+    res.redirect('/listings');
 })
 
 app.use(session(sessionOptions));
