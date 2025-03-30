@@ -1,0 +1,90 @@
+<% layout('./layouts/boilerplate.ejs') -%>
+<%if(success.length>0){%>
+    <div class="alert alert-success  alert-dismissible fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <%=success%>
+    </div>
+<%}%>
+<%if(error.length>0){%>
+    <div class="alert alert-danger  alert-dismissible fade show">
+        <%=error%>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<%}%>
+
+
+<body>
+    
+    <div class="filters left-gap">
+        <button id="left-btn">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div class="icon-filters">
+            <div class="scroll-filters">
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-tractor"></i>
+                    <p>farms</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-bed"></i>
+                    <p>rooms</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-tree"></i>
+                    <p>tropical</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-person-swimming"></i>            
+                    <p>pool</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-umbrella-beach"></i>
+                    <p>Treehouses</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-brands fa-fort-awesome"></i>
+                    <p>castle</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-sailboat"></i>
+                    <p>boat</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-fire"></i>
+                    <p>trending</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-snowflake"></i>
+                    <p>Arctic</p>
+                </div>
+                <div class="filter row mt-3">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    <p>mansion</p>
+                </div>
+            </div>
+        </div>
+        <button id="right-btn">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+    <div class="row  left-gap listings-found">
+        
+        <% for (let listing of allListings) { %>
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <a href="/listings/<%= listing._id %>" class="img-link"> 
+                    <div class="card">
+                        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
+                        <div class="card-img-overlay"></div>
+                        <div class="card-body">
+                            <p class="card-title"><b><%= listing.title %></b></p>
+                            <p class="card-price">&#8377; <%= listing.price.toLocaleString("en-IN") %> / night</p>
+                        </div>
+                    </div>
+                </a> 
+            </div>
+        <% } %>
+    </div>
+
+</body>
+
+

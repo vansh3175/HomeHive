@@ -1,0 +1,133 @@
+<% layout('./layouts/boilerplate.ejs') -%>
+<script>
+    const lisCoordinates = <%-JSON.stringify(lis.geoLocation.coordinates)%>; 
+    lisCoordinates.reverse();
+    const listing = <%-JSON.stringify(lis)%>;
+</script>
+
+<%if(success.length>0){%>
+    <div class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <%=success%>
+    </div>
+<%}%>
+<%if(error.length>0){%>
+    <div class="alert alert-danger alert-dismissible fade show">
+        <%=error%>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<%}%>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h1 class="display-5 fw-bold mb-4"><%=lis.title%></h1>
+            
+            <div class="card shadow-sm mb-4 border-0 rounded-3 overflow-hidden">
+                <img class="card-img-top show-image" src="<%=lis.image.url%>" alt="listing-image" style="height: 400px; object-fit: cover;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="text-muted mb-0">Hosted by <span class="fw-bold"><%=lis.owner.username%></span></h5>
+                        <h4 class="text-primary mb-0">&#8377;<%=lis.price.toLocaleString("en-IN")%> <small class="text-muted">/night</small></h4>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="fs-5 mb-3"><%=lis.description%></p>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-geo-alt-fill text-danger me-2"></i>
+                                <h5 class="mb-0"><%=lis.location%>, <%=lis.country%></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mb-5">
+                <a href="http://localhost:8080/listings/<%=lis.id%>/edit" class="btn btn-outline-primary px-4">
+                    <i class="bi bi-pencil-square me-1"></i> Edit
+                </a>
+                <form action="http://localhost:8080/listings/<%=lis.id%>/?_method=DELETE" method="post">
+                    <button class="btn btn-outline-danger px-4">
+                        <i class="bi bi-trash me-1"></i> Delete
+                    </button>
+                </form>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body p-4">
+                            <h2 class="fs-4 fw-bold mb-4">Tell us about your Experience</h2>
+                            
+                            <form action="http://localhost:8080/listings/<%=lis.id%>/reviews" method="post" class="needs-validation" novalidate>
+                                <div class="mb-4">
+                                    <label for="rate" class="form-label fw-bold">Rate the place</label>
+                                    <fieldset class="starability-grow">
+                                        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                                        <input type="radio" id="second-rate1" name="review[rating]" value="1" />
+                                        <label for="second-rate1" title="Terrible">1 star</label>
+                                        <input type="radio" id="second-rate2" name="review[rating]" value="2" />
+                                        <label for="second-rate2" title="Not good">2 stars</label>
+                                        <input type="radio" id="second-rate3" name="review[rating]" value="3" />
+                                        <label for="second-rate3" title="Average">3 stars</label>
+                                        <input type="radio" id="second-rate4" name="review[rating]" value="4" />
+                                        <label for="second-rate4" title="Very good">4 stars</label>
+                                        <input type="radio" id="second-rate5" name="review[rating]" value="5" />
+                                        <label for="second-rate5" title="Amazing">5 stars</label>
+                                    </fieldset>
+                                </div>
+
+                                <div class="mb-3">
+                                    <textarea class="form-control" name="review[comment]" id="comment" rows="4" placeholder="Write a detailed review" required></textarea>
+                                    <div class="invalid-feedback">
+                                        Please enter a review
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary px-4" type="submit">Submit Review</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%if(lis.reviews.length>0){%>
+                <h3 class="fs-4 fw-bold mb-4">Reviews</h3>
+                <div class="review-container mb-5">
+                    <div class="row">
+                        <%for(review of lis.reviews){%>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 shadow-sm border-0 rounded-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h5 class="card-title mb-0 fw-bold">@<%=review.author.username%> </h5>
+                                            <hr>
+                                            <p class="starability-result mb-0" data-rating="<%=review.rating%>" >
+                                                Rated: <%=review.rating%> stars
+                                            </p>
+                                        </div>
+                                        <p class="card-text mb-3"><%=review.comment%></p>
+                                        <form action="http://localhost:8080/listings/<%=lis.id%>/reviews/<%=review.id%>?_method=DELETE" method="post" class="mt-auto">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash me-1"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <%}%>
+                    </div>
+                </div>
+            <%}%>
+
+            <div class="card shadow-sm border-0 rounded-3 mb-5">
+                <div class="card-body p-4">
+                    <h3 class="fs-4 fw-bold mb-3">Where you'll be</h3>
+                    <div id="map" class="rounded-3" style="height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

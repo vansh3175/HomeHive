@@ -1,0 +1,35 @@
+<% layout('./layouts/boilerplate.ejs') -%>
+<%if(success.length>0){%>
+    <div class="alert alert-success  alert-dismissible fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <%=success%>
+    </div>
+<%}%>
+<%if(error.length>0){%>
+    <div class="alert alert-danger  alert-dismissible fade show">
+        <%=error%>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<%}%>
+
+<div class="row col-6 offset-3">
+    <div class="row mb-3">
+        <h1>Login to HomeHive</h1>
+    </div>
+    <form action="http://localhost:8080/user/login" method="post" class="needs-validation" novalidate>
+        <div class="row mb-3">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" required>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+        
+        <div class="row col-2">
+            <button class="btn btn-success">Submit</button>
+        </div>
+
+    </form>
+</div>
